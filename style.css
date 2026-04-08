@@ -1,27 +1,26 @@
-/* ── RESET ── */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ── BODY ── */
+/* BODY */
 body {
   font-family: 'DM Sans', sans-serif;
-  background: linear-gradient(135deg, #1a0a00, #8B1A1A, #FF6B00);
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
   color: white;
   min-height: 100vh;
 }
 
-/* ── NAVBAR ── */
+/* NAVBAR */
 .navbar {
   display: flex;
   justify-content: space-between;
   padding: 1rem 2rem;
-  backdrop-filter: blur(12px);
-  background: rgba(0,0,0,0.3);
-  position: sticky;
-  top: 0;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .logo {
@@ -30,7 +29,7 @@ body {
 }
 
 .nav-btn {
-  background: transparent;
+  background: none;
   border: none;
   color: white;
   margin-left: 10px;
@@ -38,10 +37,10 @@ body {
 }
 
 .nav-btn.active {
-  color: #FF6B00;
+  color: #ff7bff;
 }
 
-/* ── HERO ── */
+/* HERO */
 .hero {
   text-align: center;
   padding: 3rem 1rem;
@@ -49,43 +48,42 @@ body {
 
 .hero-title {
   font-size: 3rem;
-  font-weight: bold;
-}
-
-.accent {
-  color: #FF6B00;
+  background: linear-gradient(90deg, #ff7bff, #00d4ff);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .hero-sub {
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
-/* ── CARD (GLASS EFFECT) ── */
+/* GLASS CARD */
 .card {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
   border-radius: 20px;
   padding: 2rem;
   margin-top: 2rem;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
 }
 
-/* ── FORM ── */
+/* FORM */
 input, select {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 10px;
+  padding: 12px;
+  border-radius: 12px;
   border: none;
   margin-bottom: 15px;
+  background: rgba(255,255,255,0.1);
+  color: white;
 }
 
-/* ── BUTTON ── */
+/* BUTTON */
 .btn-primary {
-  background: linear-gradient(135deg, #FF6B00, #FF3F6C);
+  background: linear-gradient(135deg, #ff7bff, #00d4ff);
   border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 12px 20px;
+  border-radius: 25px;
   color: white;
   cursor: pointer;
   transition: 0.3s;
@@ -95,19 +93,19 @@ input, select {
   transform: scale(1.05);
 }
 
-/* ── RESULTS GRID ── */
+/* GRID */
 .results-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
 
-/* ── PRODUCT CARD ── */
+/* PRODUCT CARD */
 .product-card {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
   padding: 1rem;
-  border-radius: 15px;
+  border-radius: 20px;
   transition: 0.3s;
 }
 
@@ -115,19 +113,18 @@ input, select {
   transform: translateY(-10px) scale(1.03);
 }
 
-/* ── BUY BUTTON ── */
+/* BUY BUTTON */
 .btn-buy {
-  margin-top: 10px;
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border-radius: 10px;
   border: none;
-  background: #FF6B00;
+  background: #ff7bff;
   color: white;
   cursor: pointer;
 }
 
-/* ── SECTION ── */
+/* SECTION */
 .section {
   display: none;
   padding: 2rem;
