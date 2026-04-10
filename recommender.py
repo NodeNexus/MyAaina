@@ -2,27 +2,6 @@ import pandas as pd
 import json
 import os
 from functools import reduce
-<<<<<<< HEAD
-
-DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-PRODUCTS_FILE = os.path.join(DATA_DIR, 'products.csv')
-PROFILE_FILE = os.path.join(DATA_DIR, 'user_profile.json')
-HISTORY_FILE = os.path.join(DATA_DIR, 'purchase_history.csv')
-
-
-# ─── User Profile ────────────────────────────────────────────────
-class User:
-    def __init__(self, name, age, gender, body_type, skin_tone, size, budget_min, budget_max, interests):
-        self.name = name
-        self.age = age
-        self.gender = gender
-        self.body_type = body_type
-        self.skin_tone = skin_tone
-        self.size = size
-        self.budget_min = budget_min
-        self.budget_max = budget_max
-        self.interests = interests  # list of occasions they like
-=======
 from collections import Counter
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
@@ -46,7 +25,6 @@ class User:
         self.budget_min = int(budget_min)
         self.budget_max = int(budget_max)
         self.interests  = interests  # list of occasion strings
->>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
 
     def to_dict(self):
         return self.__dict__
@@ -72,22 +50,6 @@ def load_profile():
         return None
 
 
-<<<<<<< HEAD
-# ─── Clothing Item ────────────────────────────────────────────────
-class ClothingItem:
-    def __init__(self, row):
-        self.id = row['id']
-        self.name = row['name']
-        self.category = row['category']
-        self.occasion = row['occasion']
-        self.platform = row['platform']
-        self.price = row['price']
-        self.quality_rating = row['quality_rating']
-        self.delivery_days = row['delivery_days']
-        self.color = row['color']
-        self.size = row['size']
-        self.gender = row['gender']
-=======
 # ─── Clothing Item ────────────────────────────────────────────────────────────
 class ClothingItem:
     def __init__(self, row):
@@ -104,27 +66,11 @@ class ClothingItem:
         self.gender         = row['gender']
         self.description    = row.get('description', '')
         self.image_keyword  = row.get('image_keyword', 'indian clothing')
->>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
 
     def to_dict(self):
         return self.__dict__
 
 
-<<<<<<< HEAD
-# ─── Purchase History ─────────────────────────────────────────────
-def log_purchase(item_id):
-    try:
-        df = pd.read_csv(PRODUCTS_FILE)
-        item = df[df['id'] == int(item_id)]
-        if item.empty:
-            raise ValueError("Product not found")
-
-        if os.path.exists(HISTORY_FILE):
-            history = pd.read_csv(HISTORY_FILE)
-        else:
-            history = pd.DataFrame()
-
-=======
 # ─── Wishlist ─────────────────────────────────────────────────────────────────
 def load_wishlist():
     try:
@@ -163,7 +109,6 @@ def log_purchase(item_id):
             history = pd.read_csv(HISTORY_FILE)
         else:
             history = pd.DataFrame(columns=df.columns)
->>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
         history = pd.concat([history, item], ignore_index=True)
         history.to_csv(HISTORY_FILE, index=False)
         return True
@@ -182,8 +127,6 @@ def get_purchase_history():
         return []
 
 
-<<<<<<< HEAD
-=======
 def remove_from_history(item_id: int):
     try:
         if not os.path.exists(HISTORY_FILE):
@@ -196,31 +139,20 @@ def remove_from_history(item_id: int):
         return False
 
 
->>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
 def get_category_stats():
     """Returns category counts for pie chart"""
     try:
         if not os.path.exists(HISTORY_FILE):
             return {}
         df = pd.read_csv(HISTORY_FILE)
-<<<<<<< HEAD
-=======
         if df.empty:
             return {}
->>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
         counts = df['category'].value_counts().to_dict()
         return counts
     except Exception:
         return {}
 
 
-<<<<<<< HEAD
-# ─── Recommender ──────────────────────────────────────────────────
-class Recommender:
-    def __init__(self):
-        self.df = pd.read_csv(PRODUCTS_FILE)
-
-=======
 def get_spend_timeline():
     """Returns spend grouped by a rolling purchase index (simulated date)"""
     try:
@@ -261,7 +193,6 @@ class Recommender:
     def reload(self):
         self._load_data()
 
->>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
     def recommend(self, user: User, occasion: str, sort_by: str = 'price'):
         df = self.df.copy()
 
@@ -272,11 +203,7 @@ class Recommender:
         df = df[df['gender'].str.lower() == user.gender.lower()]
 
         # Filter by budget using lambda
-<<<<<<< HEAD
-        df = df[df['price'].apply(lambda p: user.budget_min <= p <= user.budget_max)]
-=======
         df = df[df['price'].apply(lambda p: user.budget_min <= float(p) <= user.budget_max)]
->>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
 
         # Filter by size using filter()
         size_match = list(filter(
@@ -288,9 +215,6 @@ class Recommender:
         if df.empty:
             return []
 
-<<<<<<< HEAD
-        # Sort based on user preference
-=======
         # Compute a composite score
         if not df.empty:
             price_norm   = 1 - (df['price'] - df['price'].min()) / (df['price'].max() - df['price'].min() + 1)
@@ -298,35 +222,12 @@ class Recommender:
             delivery_norm = 1 - (df['delivery_days'] - df['delivery_days'].min()) / (df['delivery_days'].max() - df['delivery_days'].min() + 1)
             df['score'] = (price_norm * 0.4) + (quality_norm * 0.4) + (delivery_norm * 0.2)
 
->>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
         if sort_by == 'price':
             df = df.sort_values('price', ascending=True)
         elif sort_by == 'quality':
             df = df.sort_values('quality_rating', ascending=False)
         elif sort_by == 'delivery':
             df = df.sort_values('delivery_days', ascending=True)
-<<<<<<< HEAD
-
-        # Use list comprehension to build result
-        results = [ClothingItem(row).to_dict() for _, row in df.iterrows()]
-        return results
-
-    def get_price_comparison(self, occasion: str):
-        """Average price per platform for charts"""
-        df = self.df[self.df['occasion'].str.lower() == occasion.lower()]
-        if df.empty:
-            return {}
-        avg = df.groupby('platform')['price'].mean().round(2).to_dict()
-        return avg
-
-    def get_quality_comparison(self, occasion: str):
-        """Average quality per platform for charts"""
-        df = self.df[self.df['occasion'].str.lower() == occasion.lower()]
-        if df.empty:
-            return {}
-        avg = df.groupby('platform')['quality_rating'].mean().round(2).to_dict()
-        return avg
-=======
         elif sort_by == 'score':
             df = df.sort_values('score', ascending=False)
 
@@ -415,4 +316,3 @@ class Recommender:
             'avg_quality': round(self.df['quality_rating'].mean(), 2),
             'price_range': [int(self.df['price'].min()), int(self.df['price'].max())],
         }
->>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
