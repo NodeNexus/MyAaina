@@ -3,19 +3,38 @@ from recommender import (
     User, Recommender,
     save_profile, load_profile,
     log_purchase, get_purchase_history,
+<<<<<<< HEAD
     get_category_stats
+=======
+    get_category_stats, get_spend_timeline,
+    get_platform_spend, remove_from_history,
+    toggle_wishlist, load_wishlist,
+    get_purchase_history
+>>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
 )
 
 app = Flask(__name__)
 recommender = Recommender()
 
 
+<<<<<<< HEAD
 @app.route('/')
 def index():
     profile = load_profile()
     return render_template('index.html', profile=profile)
 
 
+=======
+# ─── Pages ───────────────────────────────────────────────────────────────────
+@app.route('/')
+def index():
+    profile = load_profile()
+    catalog_stats = recommender.get_stats()
+    return render_template('index.html', profile=profile, catalog_stats=catalog_stats)
+
+
+# ─── Profile ─────────────────────────────────────────────────────────────────
+>>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
 @app.route('/api/save-profile', methods=['POST'])
 def save_profile_route():
     try:
@@ -29,7 +48,11 @@ def save_profile_route():
             size=data['size'],
             budget_min=int(data['budget_min']),
             budget_max=int(data['budget_max']),
+<<<<<<< HEAD
             interests=data['interests']
+=======
+            interests=data.get('interests', [])
+>>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
         )
         save_profile(user)
         return jsonify({'success': True, 'message': f'Profile saved for {user.name}!'})
@@ -37,29 +60,60 @@ def save_profile_route():
         return jsonify({'success': False, 'message': str(e)}), 400
 
 
+<<<<<<< HEAD
 @app.route('/api/recommend', methods=['POST'])
 def recommend():
     try:
         data = request.json
+=======
+@app.route('/api/profile', methods=['GET'])
+def get_profile():
+    profile = load_profile()
+    if profile:
+        return jsonify({'success': True, 'profile': profile.to_dict()})
+    return jsonify({'success': False, 'message': 'No profile found'}), 404
+
+
+# ─── Recommendations ──────────────────────────────────────────────────────────
+@app.route('/api/recommend', methods=['POST'])
+def recommend():
+    try:
+        data    = request.json
+>>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
         profile = load_profile()
         if not profile:
             return jsonify({'success': False, 'message': 'Please create your profile first!'}), 400
 
         occasion = data.get('occasion', '')
+<<<<<<< HEAD
         sort_by = data.get('sort_by', 'price')
+=======
+        sort_by  = data.get('sort_by', 'price')
+>>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
 
         if not occasion:
             return jsonify({'success': False, 'message': 'Please select an occasion!'}), 400
 
+<<<<<<< HEAD
         results = recommender.recommend(profile, occasion, sort_by)
         price_chart = recommender.get_price_comparison(occasion)
         quality_chart = recommender.get_quality_comparison(occasion)
+=======
+        results          = recommender.recommend(profile, occasion, sort_by)
+        price_chart      = recommender.get_price_comparison(occasion)
+        quality_chart    = recommender.get_quality_comparison(occasion)
+        delivery_chart   = recommender.get_delivery_comparison(occasion)
+>>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
 
         return jsonify({
             'success': True,
             'results': results,
             'price_chart': price_chart,
             'quality_chart': quality_chart,
+<<<<<<< HEAD
+=======
+            'delivery_chart': delivery_chart,
+>>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
             'occasion': occasion,
             'user': profile.name
         })
@@ -67,10 +121,100 @@ def recommend():
         return jsonify({'success': False, 'message': str(e)}), 500
 
 
+<<<<<<< HEAD
 @app.route('/api/log-purchase', methods=['POST'])
 def log_purchase_route():
     try:
         data = request.json
+=======
+# ─── Search ───────────────────────────────────────────────────────────────────
+@app.route('/api/search', methods=['GET'])
+def search():
+    try:
+        q       = request.args.get('q', '').strip()
+        profile = load_profile()
+        if not q:
+            return jsonify({'success': False, 'message': 'Empty query'}), 400
+        results = recommender.search(q, profile)
+        return jsonify({'success': True, 'results': results, 'query': q})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+
+# ─── Trending & Deals ────────────────────────────────────────────────────────
+@app.route('/api/trending', methods=['GET'])
+def trending():
+    try:
+        results = recommender.get_trending(limit=12)
+        return jsonify({'success': True, 'results': results})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+
+@app.route('/api/deals', methods=['GET'])
+def deals():
+    try:
+        budget  = int(request.args.get('budget', 1000))
+        results = recommender.get_budget_deals(budget_max=budget, limit=12)
+        return jsonify({'success': True, 'results': results, 'budget': budget})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+
+# ─── Catalog Meta ─────────────────────────────────────────────────────────────
+@app.route('/api/catalog/stats', methods=['GET'])
+def catalog_stats():
+    try:
+        return jsonify({'success': True, 'stats': recommender.get_stats()})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+
+@app.route('/api/catalog/occasions', methods=['GET'])
+def catalog_occasions():
+    return jsonify({'success': True, 'occasions': recommender.get_all_occasions()})
+
+
+@app.route('/api/catalog/categories', methods=['GET'])
+def catalog_categories():
+    return jsonify({'success': True, 'categories': recommender.get_all_categories()})
+
+
+# ─── Wishlist ─────────────────────────────────────────────────────────────────
+@app.route('/api/wishlist/toggle', methods=['POST'])
+def wishlist_toggle():
+    try:
+        data    = request.json
+        item_id = int(data.get('item_id'))
+        added   = toggle_wishlist(item_id)
+        msg     = 'Added to Wishlist ❤️' if added else 'Removed from Wishlist'
+        return jsonify({'success': True, 'added': added, 'message': msg})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+
+@app.route('/api/wishlist', methods=['GET'])
+def get_wishlist():
+    try:
+        ids     = load_wishlist()
+        if not ids:
+            return jsonify({'success': True, 'items': []})
+        import pandas as pd, os
+        df      = pd.read_csv(os.path.join(os.path.dirname(__file__), 'data', 'products.csv'))
+        items   = df[df['id'].isin(ids)].to_dict(orient='records')
+        for item in items:
+            item['in_wishlist'] = True
+        return jsonify({'success': True, 'items': items})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+
+# ─── Purchase History ─────────────────────────────────────────────────────────
+@app.route('/api/log-purchase', methods=['POST'])
+def log_purchase_route():
+    try:
+        data    = request.json
+>>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
         item_id = data.get('item_id')
         success = log_purchase(item_id)
         if success:
@@ -83,9 +227,37 @@ def log_purchase_route():
 @app.route('/api/history', methods=['GET'])
 def history():
     try:
+<<<<<<< HEAD
         items = get_purchase_history()
         stats = get_category_stats()
         return jsonify({'success': True, 'items': items, 'stats': stats})
+=======
+        items         = get_purchase_history()
+        stats         = get_category_stats()
+        spend_timeline = get_spend_timeline()
+        platform_spend = get_platform_spend()
+        total_spend   = sum(float(i.get('price', 0)) for i in items)
+        return jsonify({
+            'success': True,
+            'items': items,
+            'stats': stats,
+            'spend_timeline': spend_timeline,
+            'platform_spend': platform_spend,
+            'total_spend': round(total_spend, 2),
+            'total_items': len(items)
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+
+@app.route('/api/history/remove', methods=['POST'])
+def history_remove():
+    try:
+        data    = request.json
+        item_id = int(data.get('item_id'))
+        success = remove_from_history(item_id)
+        return jsonify({'success': success})
+>>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 

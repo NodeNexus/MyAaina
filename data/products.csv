@@ -1,0 +1,71 @@
+id,name,category,occasion,platform,price,quality_rating,delivery_days,color,size,gender,description,image_keyword
+1,Banarasi Silk Saree,Saree,Wedding,Myntra,4500,4.5,5,Red,Free Size,Female,Hand-woven Banarasi silk with gold zari border and intricate motifs,saree silk
+2,Cotton Printed Saree,Saree,Casual,Meesho,599,3.8,7,Blue,Free Size,Female,Soft breathable cotton saree with block-print pattern and contrast blouse,saree cotton
+3,Kanjivaram Silk Saree,Saree,Festive,Amazon,8999,4.8,4,Green,Free Size,Female,Premium Kanjivaram silk with temple border and rich pallu,saree kanjivaram
+4,Georgette Saree,Saree,Office,Myntra,1299,4.0,5,Beige,Free Size,Female,Flowy georgette with subtle floral print – perfect for office elegance,saree georgette
+5,Chiffon Saree,Saree,College,Meesho,799,3.5,8,Pink,Free Size,Female,Lightweight chiffon saree with modern floral pattern,saree chiffon
+6,Bridal Lehenga,Lehenga,Wedding,Myntra,12999,4.7,6,Red,S,Female,Heavy embroidered bridal lehenga with dupatta and blouse piece,lehenga bridal red
+7,Festive Lehenga,Lehenga,Festive,Amazon,5999,4.3,5,Orange,M,Female,Vibrant festive lehenga with mirror and thread work for Navratri or Diwali,lehenga orange festive
+8,Indo-Western Lehenga,Lehenga,College,Meesho,2499,3.9,7,Purple,L,Female,Stylish indo-western lehenga with ruffled layer – great for college fests,lehenga purple
+9,Designer Lehenga,Lehenga,Wedding,Myntra,18999,4.9,7,Pink,XL,Female,High-fashion designer lehenga with resham embroidery and sequin work,lehenga designer pink
+10,Party Lehenga,Lehenga,Festive,Amazon,3999,4.1,5,Blue,S,Female,Trendy lehenga with geometric pattern ideal for party season,lehenga blue party
+11,Cotton Kurti,Kurti,Casual,Meesho,399,3.7,6,Yellow,S,Female,Comfortable everyday cotton kurti with simple embroidery at neck,kurti cotton yellow
+12,Silk Kurti,Kurti,Office,Myntra,1199,4.2,4,White,M,Female,Elegant silk kurti with printed border – perfect for corporate meetups,kurti silk white
+13,Embroidered Kurti,Kurti,Festive,Amazon,899,4.0,5,Orange,L,Female,Festive-ready cotton kurti with phulkari embroidery at hem,kurti embroidered orange
+14,Anarkali Kurti,Kurti,College,Meesho,699,3.6,8,Pink,XL,Female,Floor-length anarkali kurti with printed yoke and flared bottom,kurti anarkali pink
+15,Straight Kurti,Kurti,Office,Myntra,999,4.1,4,Blue,S,Female,Premium straight-cut kurti in viscose fabric with mandarin collar,kurti straight blue
+16,Salwar Kameez,Salwar,Casual,Meesho,799,3.8,7,Green,M,Female,Comfortable cotton salwar kameez with dupatta set,salwar green casual
+17,Punjabi Suit,Salwar,Festive,Amazon,2499,4.3,5,Red,L,Female,Vibrant Punjabi phulkari suit with wide-leg salwar,salwar punjabi red
+18,Cotton Salwar,Salwar,Office,Myntra,1499,4.0,4,Beige,XL,Female,Office-ready cotton suit with minimal print and elegant fit,salwar cotton beige
+19,Embroidered Salwar,Salwar,Wedding,Amazon,3999,4.4,6,Pink,S,Female,Wedding collection salwar set with heavy dupatta and gota embroidery,salwar embroidered pink
+20,Palazzo Suit,Salwar,College,Meesho,999,3.7,8,Blue,M,Female,Trendy palazzo suit with printed kameez for everyday college wear,salwar palazzo blue
+21,Sherwani,Sherwani,Wedding,Myntra,8999,4.6,6,Cream,M,Male,Classic cream sherwani with gold zari work – groom or baraat ready,sherwani cream wedding
+22,Designer Sherwani,Sherwani,Wedding,Amazon,14999,4.8,7,Gold,L,Male,Premium designer sherwani with sequin embroidery and contrast churidar,sherwani gold designer
+23,Indo-Western Sherwani,Sherwani,Festive,Myntra,5999,4.3,5,Navy,XL,Male,Navy blue Nehru-collar sherwani ideal for festive celebrations,sherwani navy blue
+24,Jodhpuri Sherwani,Sherwani,Wedding,Amazon,11999,4.7,6,Maroon,S,Male,Regal Jodhpuri sherwani in velvet fabric with gold buttons,sherwani maroon jodhpuri
+25,Simple Sherwani,Sherwani,Festive,Meesho,3499,3.9,8,Beige,M,Male,Simple yet elegant sherwani in beige with dupatta,sherwani beige simple
+26,Cotton Kurta,Kurta,Casual,Meesho,499,3.8,7,White,S,Male,Breathable cotton kurta with minimal hand embroidery at collar,kurta cotton white
+27,Silk Kurta,Kurta,Festive,Myntra,1999,4.4,4,Blue,M,Male,Festive silk kurta in rich blue with golden border at hem,kurta silk blue
+28,Embroidered Kurta,Kurta,Wedding,Amazon,2999,4.5,5,Cream,L,Male,Wedding-worthy embroidered kurta with elegant chudi-style cuffs,kurta embroidered cream
+29,Linen Kurta,Kurta,Office,Myntra,1499,4.2,4,Grey,XL,Male,Wrinkle-resistant linen kurta perfect for corporate or casual office settings,kurta linen grey
+30,Printed Kurta,Kurta,College,Meesho,699,3.6,8,Green,S,Male,Trendy printed kurta with kalamkari block print for college outings,kurta printed green
+31,Dhoti Kurta Set,Dhoti,Festive,Amazon,2499,4.3,5,White,M,Male,Elegant dhoti-kurta combo for festivals – includes matching angavastram,dhoti kurta white
+32,Silk Dhoti Set,Dhoti,Wedding,Myntra,4999,4.6,6,Cream,L,Male,Luxurious silk dhoti set with gold embroidery – traditional wedding wear,dhoti silk cream
+33,Cotton Dhoti,Dhoti,Casual,Meesho,399,3.5,8,White,XL,Male,Simple everyday cotton dhoti – comfortable for home and casual occasions,dhoti cotton white
+34,Designer Dhoti Set,Dhoti,Festive,Amazon,3499,4.4,5,Gold,S,Male,Designer dhoti set with block print kurta and embellished shawl,dhoti gold designer
+35,Traditional Dhoti,Dhoti,Pooja,Meesho,299,3.7,7,White,M,Male,Traditional white dhoti for pooja and religious ceremonies,dhoti white pooja
+36,Indo-Western Jacket,Indo-Western,College,Myntra,2999,4.2,5,Black,S,Male,Stylish nehru jacket over kurta – perfect for college fests and events,jacket nehru black
+37,Nehru Jacket,Indo-Western,Festive,Amazon,1999,4.1,5,Blue,M,Male,Embroidered Nehru jacket in brocade fabric,jacket brocade blue
+38,Bandhgala Suit,Indo-Western,Office,Myntra,4999,4.5,4,Navy,L,Male,Professional bandhgala suit with subtle Jodhpuri collar detailing,bandhgala navy office
+39,Fusion Kurta,Indo-Western,College,Meesho,1299,3.8,7,Grey,XL,Female,Asymmetric fusion kurta with side slits and contrast piping,kurta fusion grey
+40,Crop Top Lehenga,Indo-Western,College,Myntra,3499,4.3,5,Pink,S,Female,Trendy crop top paired with flared lehenga – modern festive look,lehenga crop pink
+41,Anarkali Gown,Gown,Wedding,Myntra,7999,4.6,5,Maroon,M,Female,Floor-length anarkali gown with layered skirt and stone embroidery,gown anarkali maroon
+42,Sharara Set,Sharara,Festive,Amazon,4999,4.5,5,Green,S,Female,Elegant sharara set with floral embroidery and a stylish flared silhouette,sharara green
+43,Pathani Suit,Pathani,Casual,Meesho,899,3.9,7,Brown,L,Male,Traditional Pathani salwar suit in earthy tones with button detailing,pathani brown
+44,Jodhpuri Suit,Jodhpuri,Office,Myntra,5499,4.4,4,Charcoal,M,Male,Tailored Jodhpuri suit with Nehru collar perfect for formal occasions,jodhpuri charcoal office
+45,Rani Pink Lehenga,Lehenga,Wedding,Amazon,9999,4.7,6,Rani Pink,L,Female,Elegant rani pink lehenga choli with heavy zari embroidery and dupatta,lehenga rani pink
+46,Bandhej Saree,Saree,Festive,Myntra,2999,4.2,5,Yellow,Free Size,Female,Traditional Rajasthani bandhej/tie-dye saree with vibrant colors,saree bandhej yellow
+47,Pooja Dhoti,Dhoti,Pooja,Amazon,349,3.6,6,White,Free Size,Male,Pure cotton pooja dhoti for religious ceremonies and temple visits,dhoti pooja white
+48,Sherwani Kurta Set,Sherwani,Festive,Myntra,6999,4.5,5,Sky Blue,XL,Male,Festive sherwani-style long kurta with churidar,sherwani kurta sky blue
+49,Casual Juttis,Footwear,Casual,Meesho,799,3.9,8,Multicolor,Free Size,Female,Handcrafted leather juttis with embroidered floral pattern,juttis leather colorful
+50,Wedding Juttis,Footwear,Wedding,Myntra,1499,4.2,5,Gold,Free Size,Female,Bridal gold juttis with sequin and mirror work,juttis gold bridal
+51,Men Mojari,Footwear,Wedding,Amazon,1299,4.3,6,Cream,Free Size,Male,Traditional mojari/juttis with velvet upper and embroidery for grooms,mojari cream groom
+52,Kashmiri Shawl,Shawl,Festive,Myntra,3499,4.6,5,Pashmina,Free Size,Female,Authentic Kashmiri pashmina shawl with hand embroidered paisley motifs,shawl kashmiri
+53,Men Dupatta,Dupatta,Wedding,Amazon,799,3.8,5,Gold,Free Size,Male,Traditional men's dupatta in gold shade to match sherwani,dupatta gold men
+54,Heavy Dupatta,Dupatta,Wedding,Myntra,1999,4.4,5,Red,Free Size,Female,Embroidered bridal dupatta with sequin border and mirror work,dupatta bridal red
+55,Jacket Lehenga,Lehenga,Wedding,Amazon,13999,4.8,6,Peach,M,Female,Indo-western jacket lehenga set with hand embroidery,lehenga jacket peach
+56,Velvet Kurta,Kurta,Festive,Myntra,2499,4.5,4,Bottle Green,L,Male,Rich velvet Kurta for festive dressing in a statement bottle green,kurta velvet green
+57,Ikat Cotton Saree,Saree,Office,Amazon,1799,4.1,5,Blue Grey,Free Size,Female,Modern Ikat print cotton saree in subtle tones perfect for workplace,saree ikat blue
+58,Silk Pathani,Pathani,Wedding,Myntra,4299,4.4,5,Ivory,M,Male,Silk Pathani set in classic ivory shade suitable for wedding functions,pathani silk ivory
+59,Nauvari Saree,Saree,Festive,Amazon,3999,4.3,6,Green Gold,Free Size,Female,Traditional Maharashtrian 9-yard nauvari saree with golden border,saree nauvari green
+60,Mekhela Chador,Chador,Festive,Meesho,2999,4.2,7,Magenta,Free Size,Female,Traditional Assamese Mekhela Chador in silk with woven motifs,mekhela chador magenta
+61,Ghagra Choli,Ghagra,Festive,Amazon,3499,4.4,5,Orange Red,L,Female,Vibrant Rajasthani ghagra choli in traditional bandhani print,ghagra choli orange
+62,Phulkari Dupatta,Dupatta,Festive,Myntra,1299,4.2,5,Purple,Free Size,Female,Handcrafted Punjabi phulkari dupatta with vibrant floral embroidery,dupatta phulkari purple
+63,Dhoti Pants,Dhoti,College,Myntra,1199,4.0,5,White,M,Male,Trendy dhoti-style pants – the college-chic meet traditional look,dhoti pants white
+64,Men Pyjama Kurta,Kurta,Casual,Meesho,749,3.7,7,Blue,XL,Male,Comfortable pyjama kurta set for everyday casual and home wear,kurta pyjama blue
+65,Pooja Saree,Saree,Pooja,Meesho,899,3.8,7,Yellow,Free Size,Female,Simple cotton saree in auspicious yellow for pooja and religious occasions,saree pooja yellow
+66,Boat Neck Blouse,Blouse,Casual,Meesho,499,3.6,8,White,S,Female,Back tie-up boat neck blouse with printed pattern,blouse white casual
+67,Mirror Work Kurti,Kurti,Festive,Amazon,1499,4.3,5,Teal,M,Female,Rajasthani mirror-work kurti with three-quarter sleeves,kurti mirror teal
+68,Chikankari Kurta,Kurta,Office,Myntra,1799,4.4,4,Off White,L,Male,Classic Lucknowi chikankari kurta in off-white with delicate thread work,kurta chikankari white
+69,Batik Saree,Saree,Casual,Meesho,699,3.7,8,Indigo,Free Size,Female,Contemporary Batik dye saree in Indigo tones,saree batik indigo
+70,Ethnic Shrug,Shrug,College,Myntra,899,4.1,5,Pink,S,Female,Long embroidered shrug over ethnic wear for a boho indie look,shrug ethnic pink

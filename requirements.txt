@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 flask==3.0.0
 pandas==2.1.4
+=======
+flask==3.0.3
+pandas>=2.2.0
+>>>>>>> 5734a39 (Upgrade project to max level, fix issues, and overhaul UI)
