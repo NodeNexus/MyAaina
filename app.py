@@ -76,13 +76,24 @@ def recommend():
         if not occasion:
             return jsonify({'success': False, 'message': 'Please select an occasion!'}), 400
 
-        live_results = myntra_service.fetch_recommendations(profile, occasion, sort_by, limit=24)
-        savana_results = savana_service.fetch_recommendations(profile, occasion, sort_by, limit=18)
-        manyavar_limit = 30 if occasion == 'Wedding' else 18
-        manyavar_results = manyavar_service.fetch_recommendations(profile, occasion, sort_by, limit=manyavar_limit)
+        try:
+            live_results = myntra_service.fetch_recommendations(profile, occasion, sort_by, limit=24)
+        except Exception:
+            live_results = []
+
+        try:
+            savana_results = savana_service.fetch_recommendations(profile, occasion, sort_by, limit=18)
+        except Exception:
+            savana_results = []
+
+        try:
+            manyavar_limit = 30 if occasion == 'Wedding' else 18
+            manyavar_results = manyavar_service.fetch_recommendations(profile, occasion, sort_by, limit=manyavar_limit)
+        except Exception:
+            manyavar_results = []
         
         local_results = [
-            item for item in recommender.recommend(profile, occasion, sort_by)
+            item for item in recommender.recommend(profile, occasion, sort_by, limit=30)
             if item.get('platform') != 'Meesho'
         ]
 
@@ -91,8 +102,8 @@ def recommend():
         else:
             sources = [live_results, savana_results, manyavar_results, local_results]
 
-        results = merge_results(*sources, limit=12)
-        chart_results = merge_results(*sources, limit=36)
+        results = merge_results(*sources, limit=24)
+        chart_results = merge_results(*sources, limit=48)
 
         price_chart      = build_platform_chart(chart_results, 'price')
         quality_chart    = build_platform_chart(chart_results, 'quality_rating')
@@ -274,8 +285,15 @@ def image_proxy():
             mimetype=mimetype,
             headers={'Cache-Control': 'public, max-age=21600'}
         )
-    except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 502
+    except Exception:
+        # Return a 1x1 transparent PNG so the browser shows a blank pixel
+        # instead of "HTTP Error 471" or a broken image
+        import base64
+        pixel = base64.b64decode(
+            'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQAB'
+            'Nl7BcQAAAABJRU5ErkJggg=='
+        )
+        return Response(pixel, mimetype='image/png', headers={'Cache-Control': 'public, max-age=60'})
 
 
 def merge_results(*result_sets, limit=12):

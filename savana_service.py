@@ -32,6 +32,12 @@ SEARCH_QUERY_MAP = {
     ('Female', 'Festive'): 'sequin dress',
     ('Female', 'Wedding'): 'party dress',
     ('Female', 'Pooja'): 'embroidered blouse',
+    ('Male', 'Casual'): 'men casual shirt',
+    ('Male', 'Office'): 'men formal shirt',
+    ('Male', 'College'): 'men t-shirt',
+    ('Male', 'Festive'): 'men ethnic wear',
+    ('Male', 'Wedding'): 'men suit blazer',
+    ('Male', 'Pooja'): 'men kurta',
 }
 
 

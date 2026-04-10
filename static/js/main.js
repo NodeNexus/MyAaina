@@ -267,7 +267,7 @@ function generateCardGrid(items, showScore = false) {
       </button>
 
       <div class="img-container" onclick="openModal('${item.id}')">
-        <img src="${getImgSrc(item)}" class="product-img" loading="lazy" alt="${item.name}"/>
+        <img src="${getImgSrc(item)}" class="product-img" loading="lazy" alt="${item.name}" onerror="this.onerror=null; this.src='https://picsum.photos/seed/${String(item.id).replace(/\\D/g,'')||1}/500/700'"/>
         <span class="platform-badge">${item.platform}</span>
       </div>
 

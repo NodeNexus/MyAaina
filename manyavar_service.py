@@ -41,6 +41,17 @@ URL_MAP = {
         'https://www.manyavar.com/en-us/mohey/saree',
         'https://www.manyavar.com/en-us/mohey/all-products',
     ],
+    ('Female', 'Casual'): [
+        'https://www.manyavar.com/en-us/mohey/all-products',
+    ],
+    ('Female', 'Office'): [
+        'https://www.manyavar.com/en-us/mohey/indo-western',
+        'https://www.manyavar.com/en-us/mohey/all-products',
+    ],
+    ('Female', 'College'): [
+        'https://www.manyavar.com/en-us/mohey/indo-western',
+        'https://www.manyavar.com/en-us/mohey/all-products',
+    ],
     ('Male', 'Wedding'): [
         'https://www.manyavar.com/en-us/men/sherwani',
         'https://www.manyavar.com/en-us/men/kurta',
@@ -51,6 +62,18 @@ URL_MAP = {
         'https://www.manyavar.com/en-us/men/kurta',
     ],
     ('Male', 'Pooja'): [
+        'https://www.manyavar.com/en-us/men/kurta',
+        'https://www.manyavar.com/en-us/men/all-products',
+    ],
+    ('Male', 'Casual'): [
+        'https://www.manyavar.com/en-us/men/kurta',
+        'https://www.manyavar.com/en-us/men/all-products',
+    ],
+    ('Male', 'Office'): [
+        'https://www.manyavar.com/en-us/men/kurta',
+        'https://www.manyavar.com/en-us/men/all-products',
+    ],
+    ('Male', 'College'): [
         'https://www.manyavar.com/en-us/men/kurta',
         'https://www.manyavar.com/en-us/men/all-products',
     ],
