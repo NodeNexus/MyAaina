@@ -11,6 +11,21 @@ PROFILE_FILE  = os.path.join(DATA_DIR, 'user_profile.json')
 HISTORY_FILE  = os.path.join(DATA_DIR, 'purchase_history.csv')
 WISHLIST_FILE = os.path.join(DATA_DIR, 'wishlist.json')
 
+SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+SKIN_TONE_COLOR_PREFERENCES = {
+    'Fair': {'red', 'maroon', 'emerald', 'green', 'lavender', 'black', 'blue', 'navy', 'pink', 'navy blue'},
+    'Wheatish': {'mustard', 'teal', 'maroon', 'navy', 'olive', 'cream', 'rust', 'purple', 'navy blue'},
+    'Dusky': {'white', 'mustard', 'magenta', 'teal', 'rust', 'pink', 'yellow', 'gold'},
+    'Dark': {'white', 'yellow', 'green', 'emerald', 'blue', 'royal blue', 'orange', 'gold', 'red', 'cream'},
+}
+BODY_TYPE_CATEGORY_PREFERENCES = {
+    'Slim': {'lehenga', 'saree', 'kurti', 'kurtis', 'indo-western'},
+    'Athletic': {'sherwani', 'indo-western', 'nehru jacket', 'bandhgala', 'dhoti'},
+    'Curvy': {'saree', 'salwar', 'lehenga'},
+    'Plus Size': {'salwar', 'saree', 'kurta sets'},
+    'Petite': {'kurti', 'kurtis', 'indo-western'},
+}
+
 
 # ─── User Profile ────────────────────────────────────────────────────────────
 class User:
@@ -99,16 +114,19 @@ def toggle_wishlist(item_id: int):
 
 
 # ─── Purchase History ─────────────────────────────────────────────────────────
-def log_purchase(item_id):
+def log_purchase(item_id, item_payload=None):
     try:
-        df   = pd.read_csv(PRODUCTS_FILE)
-        item = df[df['id'] == int(item_id)]
-        if item.empty:
-            raise ValueError("Product not found")
+        if item_payload:
+            item = pd.DataFrame([item_payload])
+        else:
+            df   = pd.read_csv(PRODUCTS_FILE)
+            item = df[df['id'] == int(item_id)]
+            if item.empty:
+                raise ValueError("Product not found")
         if os.path.exists(HISTORY_FILE):
             history = pd.read_csv(HISTORY_FILE)
         else:
-            history = pd.DataFrame(columns=df.columns)
+            history = pd.DataFrame(columns=item.columns if not item.empty else [])
         history = pd.concat([history, item], ignore_index=True)
         history.to_csv(HISTORY_FILE, index=False)
         return True
@@ -193,51 +211,111 @@ class Recommender:
     def reload(self):
         self._load_data()
 
-    def recommend(self, user: User, occasion: str, sort_by: str = 'price'):
+    def recommend(self, user: User, occasion: str, sort_by: str = 'price', limit: int = 12):
         df = self.df.copy()
 
-        # Filter by occasion
+        # Filter by occasion and gender first
         df = df[df['occasion'].str.lower() == occasion.lower()]
-
-        # Filter by gender
         df = df[df['gender'].str.lower() == user.gender.lower()]
-
-        # Filter by budget using lambda
-        df = df[df['price'].apply(lambda p: user.budget_min <= float(p) <= user.budget_max)]
-
-        # Filter by size using filter()
-        size_match = list(filter(
-            lambda row: row['size'] in [user.size, 'Free Size'],
-            df.to_dict(orient='records')
-        ))
-        df = pd.DataFrame(size_match)
 
         if df.empty:
             return []
 
-        # Compute a composite score
-        if not df.empty:
-            price_norm   = 1 - (df['price'] - df['price'].min()) / (df['price'].max() - df['price'].min() + 1)
-            quality_norm = (df['quality_rating'] - df['quality_rating'].min()) / (df['quality_rating'].max() - df['quality_rating'].min() + 1)
-            delivery_norm = 1 - (df['delivery_days'] - df['delivery_days'].min()) / (df['delivery_days'].max() - df['delivery_days'].min() + 1)
-            df['score'] = (price_norm * 0.4) + (quality_norm * 0.4) + (delivery_norm * 0.2)
+        scored_rows = []
+        for _, row in df.iterrows():
+            item = row.to_dict()
+            size_penalty = self._size_penalty(user.size, item['size'])
+            budget_penalty = self._budget_penalty(user.budget_min, user.budget_max, item['price'])
+            profile_penalty = self._profile_penalty(user, item, occasion)
+            match_reason = self._match_reason(size_penalty, budget_penalty, profile_penalty)
+            
+            scored_rows.append({
+                **item,
+                '_size_penalty': size_penalty,
+                '_budget_penalty': budget_penalty,
+                '_profile_penalty': profile_penalty,
+                '_match_reason': match_reason,
+            })
 
-        if sort_by == 'price':
-            df = df.sort_values('price', ascending=True)
-        elif sort_by == 'quality':
-            df = df.sort_values('quality_rating', ascending=False)
-        elif sort_by == 'delivery':
-            df = df.sort_values('delivery_days', ascending=True)
-        elif sort_by == 'score':
-            df = df.sort_values('score', ascending=False)
+        ranked = pd.DataFrame(scored_rows)
+        ranked = self._sort_ranked(ranked, sort_by)
 
         wishlist = load_wishlist()
         results  = []
-        for _, row in df.iterrows():
+        for _, row in ranked.iterrows():
             item      = ClothingItem(row).to_dict()
             item['in_wishlist'] = int(item['id']) in wishlist
+            item['match_reason'] = row['_match_reason']
             results.append(item)
+            if len(results) >= limit:
+                break
         return results
+
+    def _sort_ranked(self, df, sort_by):
+        sort_columns = ['_budget_penalty', '_size_penalty', '_profile_penalty']
+        ascending = [True, True, True]
+
+        if sort_by == 'price':
+            sort_columns.append('price')
+            ascending.append(True)
+        elif sort_by == 'quality':
+            sort_columns.append('quality_rating')
+            ascending.append(False)
+        elif sort_by == 'delivery':
+            sort_columns.append('delivery_days')
+            ascending.append(True)
+        else:
+            sort_columns.append('price')
+            ascending.append(True)
+
+        sort_columns.append('id')
+        ascending.append(True)
+        return df.sort_values(sort_columns, ascending=ascending)
+
+    def _size_penalty(self, user_size, item_size):
+        if item_size == 'Free Size':
+            return 0.05
+        if item_size == user_size:
+            return 0.0
+        if user_size not in SIZE_ORDER or item_size not in SIZE_ORDER:
+            return 0.8
+        distance = abs(SIZE_ORDER.index(user_size) - SIZE_ORDER.index(item_size))
+        return 0.25 * distance
+
+    def _budget_penalty(self, budget_min, budget_max, price):
+        if budget_min <= price <= budget_max:
+            return 0.0
+        if price < budget_min:
+            return round((budget_min - price) / max(budget_min, 1), 3)
+        return round((price - budget_max) / max(budget_max, 1), 3)
+
+    def _profile_penalty(self, user, item, occasion):
+        penalty = 0.0
+        preferred_colors = SKIN_TONE_COLOR_PREFERENCES.get(user.skin_tone, set())
+        color = str(item.get('color') or '').strip().lower()
+        if preferred_colors and color not in preferred_colors:
+            penalty += 0.18
+
+        preferred_categories = BODY_TYPE_CATEGORY_PREFERENCES.get(user.body_type, set())
+        category_text = ' '.join([
+            str(item.get('category') or '').strip().lower(),
+            str(item.get('name') or '').strip().lower(),
+        ])
+        if preferred_categories and not any(pref in category_text for pref in preferred_categories):
+            penalty += 0.22
+
+        if user.interests and occasion not in user.interests:
+            penalty += 0.08
+        return round(penalty, 3)
+
+    def _match_reason(self, size_penalty, budget_penalty, profile_penalty):
+        if size_penalty <= 0.05 and budget_penalty == 0:
+            return 'Exact match' if profile_penalty <= 0.12 else 'Good match'
+        if budget_penalty == 0:
+            return 'More sizes' if profile_penalty <= 0.12 else 'Style compromise'
+        if size_penalty <= 0.05:
+            return 'Budget stretch'
+        return 'Close match'
 
     def get_price_comparison(self, occasion: str):
         df = self.df[self.df['occasion'].str.lower() == occasion.lower()]

@@ -241,10 +241,12 @@ function renderDecisionCharts(pData, qData, dData) {
 
 // ── UTILS & HTML GEN ──
 function getImgSrc(item) {
+  if (item.image_url && item.image_url.startsWith('http')) {
+    return `/api/image-proxy?url=${encodeURIComponent(item.image_url)}`;
+  }
   const kw = item.image_keyword ? item.image_keyword.replace(/\s/g, ',') : 'indian,clothing';
-  // Standard Unsplash source is dead, so using picsum with stable seeds based on ID
-  // It gives deterministic stunning abstract photography. We overlay text so it feels premium.
-  return `https://picsum.photos/seed/${item.id * 1024}/500/700`; 
+  const idStr = String(item.id).replace(/\D/g, '') || 1;
+  return `https://picsum.photos/seed/${idStr * 1024}/500/700`; 
 }
 
 function renderStars(rating) {
@@ -260,17 +262,18 @@ function generateCardGrid(items, showScore = false) {
   return items.map((item, idx) => `
     <div class="product-card" style="animation: fadeInUp 0.4s ease forwards; animation-delay: ${idx * 0.05}s; opacity:0;">
       
-      <button class="wishlist-btn ${item.in_wishlist?'active':''}" onclick="toggleWishlist(${item.id}, this)">
+      <button class="wishlist-btn ${item.in_wishlist?'active':''}" onclick="toggleWishlist('${item.id}', this)">
         ${item.in_wishlist?'❤️':'🤍'}
       </button>
 
-      <div class="img-container" onclick="openModal(${item.id})">
+      <div class="img-container" onclick="openModal('${item.id}')">
         <img src="${getImgSrc(item)}" class="product-img" loading="lazy" alt="${item.name}"/>
         <span class="platform-badge">${item.platform}</span>
       </div>
 
       <div class="product-name" title="${item.name}">${item.name}</div>
       <div class="product-cat">${item.category} · ${item.color}</div>
+      ${item.match_reason ? `<div style="font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: -5px; margin-bottom: 5px;">✨ ${item.match_reason}</div>` : ''}
 
       <div class="product-meta">
         <div class="meta-row">
@@ -283,7 +286,7 @@ function generateCardGrid(items, showScore = false) {
         </div>
       </div>
 
-      <button class="btn-buy" id="buy-btn-${item.id}" onclick="logPurchase(${item.id})">
+      <button class="btn-buy" id="buy-btn-${item.id}" onclick="logPurchase('${item.id}')">
         🛍️ Buy / Add to Wardrobe
       </button>
     </div>
@@ -307,7 +310,6 @@ async function toggleWishlist(id, btnElement) {
       } else {
         btnElement.classList.remove('active');
         btnElement.innerHTML = '🤍';
-        // If we are in wishlist view, reload
         if(document.getElementById('wishlist').classList.contains('active')) loadWishlist();
       }
     }
@@ -316,10 +318,11 @@ async function toggleWishlist(id, btnElement) {
 
 async function logPurchase(id) {
   try {
+    const item = window.catalogData[id];
     const res = await fetch('/api/log-purchase', {
       method: 'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({item_id: id})
+      body: JSON.stringify({item_id: id, item: item})
     });
     const d = await res.json();
     if(d.success) {
@@ -394,14 +397,14 @@ async function loadHistory() {
     // Render Grid
     grid.innerHTML = d.items.map((item, idx) => `
       <div class="product-card" style="animation-delay:${idx*0.05}s">
-        <div class="img-container" onclick="openModal(${item.id})">
+        <div class="img-container" onclick="openModal('${item.id}')">
           <img src="${getImgSrc(item)}" class="product-img" loading="lazy" />
           <span class="platform-badge" style="background:var(--accent); color:#000;">Purchased</span>
         </div>
         <div class="product-name">${item.name}</div>
         <div class="meta-row mt-2" style="background: rgba(80,250,123,0.1); border: 1px solid rgba(80,250,123,0.2); padding: 10px; border-radius:8px;">
           <span class="meta-label" style="color:var(--accent)">Paid</span>
-          <span class="meta-value price-value">₹${item.price.toLocaleString('en-IN')}</span>
+          <span class="meta-value price-value">₹${parseFloat(item.price).toLocaleString('en-IN')}</span>
         </div>
       </div>
     `).join('');
@@ -441,7 +444,7 @@ function openModal(itemId) {
     <div class="modal-body">
       <div class="modal-img-col">
         <img src="${getImgSrc(item)}" class="modal-img" />
-        <button class="wishlist-btn ${item.in_wishlist?'active':''}" style="width:50px;height:50px;font-size:1.5rem;" onclick="toggleWishlist(${item.id}, this); event.stopPropagation();">
+        <button class="wishlist-btn ${item.in_wishlist?'active':''}" style="width:50px;height:50px;font-size:1.5rem;" onclick="toggleWishlist('${item.id}', this); event.stopPropagation();">
           ${item.in_wishlist?'❤️':'🤍'}
         </button>
       </div>
@@ -453,7 +456,7 @@ function openModal(itemId) {
         <div class="modal-metrics">
           <div class="metric">
             <span class="metric-label">Price</span>
-            <span class="metric-val price">₹${item.price.toLocaleString('en-IN')}</span>
+            <span class="metric-val price">₹${parseFloat(item.price).toLocaleString('en-IN')}</span>
           </div>
           <div class="metric">
             <span class="metric-label">Quality Score</span>
@@ -469,7 +472,7 @@ function openModal(itemId) {
           </div>
         </div>
 
-        <button class="btn-primary" style="margin-top:0;" onclick="logPurchase(${item.id}); closeModal(event);">
+        <button class="btn-primary" style="margin-top:0;" onclick="logPurchase('${item.id}'); closeModal(event);">
           Buy Now &amp; Log Purchase
         </button>
       </div>

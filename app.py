@@ -1,16 +1,26 @@
-from flask import Flask, render_template, request, jsonify
+import os
+from urllib.parse import urlparse
+from urllib.request import Request, urlopen
+from flask import Flask, render_template, request, jsonify, Response
+
+from manyavar_service import ManyavarService
+from myntra_service import MyntraService
+from savana_service import SavanaService
+
 from recommender import (
     User, Recommender,
     save_profile, load_profile,
     log_purchase, get_purchase_history,
     get_category_stats, get_spend_timeline,
     get_platform_spend, remove_from_history,
-    toggle_wishlist, load_wishlist,
-    get_purchase_history
+    toggle_wishlist, load_wishlist
 )
 
 app = Flask(__name__)
 recommender = Recommender()
+myntra_service = MyntraService()
+savana_service = SavanaService()
+manyavar_service = ManyavarService()
 
 
 # ─── Pages ───────────────────────────────────────────────────────────────────
@@ -66,10 +76,27 @@ def recommend():
         if not occasion:
             return jsonify({'success': False, 'message': 'Please select an occasion!'}), 400
 
-        results          = recommender.recommend(profile, occasion, sort_by)
-        price_chart      = recommender.get_price_comparison(occasion)
-        quality_chart    = recommender.get_quality_comparison(occasion)
-        delivery_chart   = recommender.get_delivery_comparison(occasion)
+        live_results = myntra_service.fetch_recommendations(profile, occasion, sort_by, limit=24)
+        savana_results = savana_service.fetch_recommendations(profile, occasion, sort_by, limit=18)
+        manyavar_limit = 30 if occasion == 'Wedding' else 18
+        manyavar_results = manyavar_service.fetch_recommendations(profile, occasion, sort_by, limit=manyavar_limit)
+        
+        local_results = [
+            item for item in recommender.recommend(profile, occasion, sort_by)
+            if item.get('platform') != 'Meesho'
+        ]
+
+        if occasion == 'Wedding':
+            sources = [manyavar_results[:12], manyavar_results[12:], live_results, local_results]
+        else:
+            sources = [live_results, savana_results, manyavar_results, local_results]
+
+        results = merge_results(*sources, limit=12)
+        chart_results = merge_results(*sources, limit=36)
+
+        price_chart      = build_platform_chart(chart_results, 'price')
+        quality_chart    = build_platform_chart(chart_results, 'quality_rating')
+        delivery_chart   = build_platform_chart(chart_results, 'delivery_days')
 
         return jsonify({
             'success': True,
@@ -172,7 +199,8 @@ def log_purchase_route():
     try:
         data    = request.json
         item_id = data.get('item_id')
-        success = log_purchase(item_id)
+        item_payload = data.get('item')
+        success = log_purchase(item_id, item_payload)
         if success:
             return jsonify({'success': True, 'message': 'Purchase logged!'})
         return jsonify({'success': False, 'message': 'Item not found'}), 404
@@ -211,6 +239,83 @@ def history_remove():
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 
+
+@app.route('/api/image-proxy', methods=['GET'])
+def image_proxy():
+    try:
+        image_url = request.args.get('url', '').strip()
+        if not image_url.startswith(('http://', 'https://')):
+            return jsonify({'success': False, 'message': 'Invalid image URL'}), 400
+
+        parsed = urlparse(image_url)
+        referer_map = {
+            'myntra.com': 'https://www.myntra.com/',
+            'manyavar.com': 'https://www.manyavar.com/',
+            'savana.com': 'https://www.savana.com/',
+        }
+
+        referer = None
+        for domain, value in referer_map.items():
+            if domain in parsed.netloc:
+                referer = value
+                break
+
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        if referer:
+            headers['Referer'] = referer
+
+        req = Request(image_url, headers=headers)
+        with urlopen(req, timeout=25) as response:
+            content = response.read()
+            mimetype = response.headers.get_content_type()
+
+        return Response(
+            content,
+            mimetype=mimetype,
+            headers={'Cache-Control': 'public, max-age=21600'}
+        )
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 502
+
+
+def merge_results(*result_sets, limit=12):
+    merged = []
+    seen = set()
+    buckets = [list(result_set) for result_set in result_sets if result_set]
+
+    while buckets and len(merged) < limit:
+        active = False
+        for bucket in buckets:
+            if len(merged) >= limit:
+                break
+            while bucket:
+                result = bucket.pop(0)
+                key = (result.get('platform'), result.get('name'))
+                if key in seen:
+                    continue
+                seen.add(key)
+                merged.append(result)
+                active = True
+                break
+        if not active:
+            break
+    return merged
+
+
+def build_platform_chart(results, field):
+    grouped = {}
+    for item in results:
+        platform = item.get('platform')
+        value = item.get(field)
+        if platform is None or value is None:
+            continue
+        grouped.setdefault(platform, []).append(float(value))
+
+    chart = {}
+    for platform, values in grouped.items():
+        if values:
+            chart[platform] = round(sum(values) / len(values), 2)
+    return chart
 
 if __name__ == '__main__':
     app.run(debug=True)
