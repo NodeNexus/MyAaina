@@ -218,23 +218,23 @@ function renderDecisionCharts(pData, qData, dData) {
   if(charts.dc) charts.dc.destroy();
 
   const getCtx = id => document.getElementById(id).getContext('2d');
-  const sharedOpt = { responsive: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { color: '#aaa' } }, x: { ticks: { color: '#aaa' } } } };
+  const sharedOpt = { responsive: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { color: '#6e6d7a' } }, x: { ticks: { color: '#6e6d7a' } } } };
 
   charts.pc = new Chart(getCtx('priceChart'), {
     type: 'bar',
-    data: { labels: Object.keys(pData), datasets: [{ data: Object.values(pData), backgroundColor: 'rgba(0, 212, 255, 0.6)', borderColor: '#00d4ff', borderWidth: 1, borderRadius: 8 }] },
+    data: { labels: Object.keys(pData), datasets: [{ data: Object.values(pData), backgroundColor: 'rgba(0, 123, 255, 0.6)', borderColor: '#007bff', borderWidth: 1, borderRadius: 8 }] },
     options: sharedOpt
   });
 
   charts.qc = new Chart(getCtx('qualityChart'), {
     type: 'line',
-    data: { labels: Object.keys(qData), datasets: [{ data: Object.values(qData), borderColor: '#ff7bff', backgroundColor: 'rgba(255, 123, 255, 0.2)', borderWidth: 3, pointBackgroundColor: '#fff', fill: true, tension: 0.4 }] },
+    data: { labels: Object.keys(qData), datasets: [{ data: Object.values(qData), borderColor: '#ff4785', backgroundColor: 'rgba(255, 71, 133, 0.2)', borderWidth: 3, pointBackgroundColor: '#fff', fill: true, tension: 0.4 }] },
     options: { ...sharedOpt, scales: { ...sharedOpt.scales, y: { ...sharedOpt.scales.y, min: 2, max: 5 } } }
   });
 
   charts.dc = new Chart(getCtx('deliveryChart'), {
     type: 'bar',
-    data: { labels: Object.keys(dData), datasets: [{ data: Object.values(dData), backgroundColor: 'rgba(80, 250, 123, 0.6)', borderColor: '#50fa7b', borderWidth: 1, borderRadius: 8 }] },
+    data: { labels: Object.keys(dData), datasets: [{ data: Object.values(dData), backgroundColor: 'rgba(0, 184, 148, 0.6)', borderColor: '#00b894', borderWidth: 1, borderRadius: 8 }] },
     options: sharedOpt
   });
 }
@@ -417,18 +417,18 @@ function renderHistoryCharts(stats, platformStats) {
   
   const ctxHC = document.getElementById('historyChart').getContext('2d');
   const ctxPSC = document.getElementById('platformSpendChart').getContext('2d');
-  const colors = ['#ff7bff', '#00d4ff', '#50fa7b', '#f1fa8c', '#ff5555', '#bd93f9', '#ffb86c'];
+  const colors = ['#ff4785', '#007bff', '#00b894', '#f1fa8c', '#ff5555', '#a29bfe', '#e17055'];
 
   charts.hc = new Chart(ctxHC, {
     type: 'doughnut',
-    data: { labels: Object.keys(stats), datasets: [{ data: Object.values(stats), backgroundColor: colors, borderWidth: 0 }] },
-    options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } }, cutout: '75%' }
+    data: { labels: Object.keys(stats), datasets: [{ data: Object.values(stats), backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }] },
+    options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#6e6d7a'} } }, cutout: '75%' }
   });
 
   charts.psc = new Chart(ctxPSC, {
     type: 'pie',
-    data: { labels: Object.keys(platformStats), datasets: [{ data: Object.values(platformStats), backgroundColor: colors.slice().reverse(), borderWidth: 0 }] },
-    options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#fff'} } } }
+    data: { labels: Object.keys(platformStats), datasets: [{ data: Object.values(platformStats), backgroundColor: colors.slice().reverse(), borderWidth: 2, borderColor: '#fff' }] },
+    options: { responsive: true, plugins: { legend: { position: 'right', labels:{color:'#6e6d7a'} } } }
   });
 }
 
