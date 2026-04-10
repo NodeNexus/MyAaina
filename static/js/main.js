@@ -49,8 +49,9 @@ function switchTab(tabId) {
   document.querySelectorAll('.explore-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
   document.getElementById(`tab-${tabId}`).classList.add('active');
 
-  document.querySelectorAll('.explore-panel').forEach(p => p.classList.add('hidden'));
-  document.getElementById(`explore-${tabId}-panel`).classList.remove('hidden');
+  // CSS uses .explore-panel.active-panel for display:block — toggle that class
+  document.querySelectorAll('.explore-panel').forEach(p => p.classList.remove('active-panel'));
+  document.getElementById(`explore-${tabId}-panel`).classList.add('active-panel');
 }
 
 // ── PROFILE ──
@@ -246,7 +247,7 @@ function getImgSrc(item) {
   }
   const kw = item.image_keyword ? item.image_keyword.replace(/\s/g, ',') : 'indian,clothing';
   const idStr = String(item.id).replace(/\D/g, '') || 1;
-  return `https://picsum.photos/seed/${idStr * 1024}/500/700`; 
+  return `https://loremflickr.com/500/700/fashion,${kw}?lock=${idStr}`; 
 }
 
 function renderStars(rating) {
@@ -267,7 +268,7 @@ function generateCardGrid(items, showScore = false) {
       </button>
 
       <div class="img-container" onclick="openModal('${item.id}')">
-        <img src="${getImgSrc(item)}" class="product-img" loading="lazy" alt="${item.name}" onerror="this.onerror=null; this.src='https://picsum.photos/seed/${String(item.id).replace(/\\D/g,'')||1}/500/700'"/>
+        <img src="${getImgSrc(item)}" class="product-img" loading="lazy" alt="${item.name}" onerror="this.onerror=null; this.src='https://loremflickr.com/500/700/fashion,' + (item.image_keyword ? item.image_keyword.replace(/\\s/g, ',') : 'clothing') + '?lock=' + (String(item.id).replace(/\\D/g,'')||1)"/>
         <span class="platform-badge">${item.platform}</span>
       </div>
 
@@ -278,11 +279,11 @@ function generateCardGrid(items, showScore = false) {
       <div class="product-meta">
         <div class="meta-row">
           <span class="meta-label">Price</span>
-          <span class="meta-value price-value">₹${item.price.toLocaleString('en-IN')}</span>
+          <span class="meta-value price-value">₹${(parseFloat(item.price) || 0).toLocaleString('en-IN')}</span>
         </div>
         <div class="meta-row">
           <span class="meta-label">Rating</span>
-          <span class="meta-value" style="color:#ffb86c;">${item.quality_rating} ★</span>
+          <span class="meta-value" style="color:#ffb86c;">${(parseFloat(item.quality_rating) || 0).toFixed(1)} ★</span>
         </div>
       </div>
 
@@ -456,7 +457,7 @@ function openModal(itemId) {
         <div class="modal-metrics">
           <div class="metric">
             <span class="metric-label">Price</span>
-            <span class="metric-val price">₹${parseFloat(item.price).toLocaleString('en-IN')}</span>
+            <span class="metric-val price">₹${(parseFloat(item.price) || 0).toLocaleString('en-IN')}</span>
           </div>
           <div class="metric">
             <span class="metric-label">Quality Score</span>

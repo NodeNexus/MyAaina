@@ -8,21 +8,29 @@ from urllib.request import Request, urlopen
 
 BASE_DIR = os.path.dirname(__file__)
 CACHE_FILE = os.path.join(BASE_DIR, 'myntra_cache.json')
-CACHE_TTL_SECONDS = 30 * 60
+CACHE_TTL_SECONDS = 7 * 24 * 60 * 60  # 7 days – use cached catalogue data
 SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 SKIN_TONE_COLOR_PREFERENCES = {
-    'Fair': {'red', 'maroon', 'emerald', 'green', 'lavender', 'black', 'blue', 'navy blue', 'pink'},
-    'Wheatish': {'mustard', 'teal', 'maroon', 'navy blue', 'olive', 'cream', 'rust', 'purple'},
-    'Dusky': {'white', 'mustard', 'magenta', 'teal', 'rust', 'pink', 'yellow', 'gold'},
-    'Dark': {'white', 'yellow', 'green', 'emerald', 'blue', 'royal blue', 'orange', 'gold', 'red', 'cream'},
+    'Fair':     {'red', 'maroon', 'royal blue', 'deep purple', 'pink', 'navy', 'black', 'ivory', 'cream', 'gold'},
+    'Wheatish': {'mustard', 'olive', 'maroon', 'navy', 'cream', 'rust', 'purple', 'turquoise', 'orange'},
+    'Dusky':    {'white', 'yellow', 'saffron', 'magenta', 'coral', 'pink', 'gold', 'sky blue', 'light green'},
+    'Dark':     {'white', 'yellow', 'saffron', 'orange', 'gold', 'red', 'cream', 'sky blue', 'light green'},
 }
 BODY_TYPE_CATEGORY_PREFERENCES = {
-    'Slim': {'lehenga', 'saree', 'kurti', 'kurtis', 'indo-western'},
-    'Athletic': {'sherwani', 'indo-western', 'nehru jacket', 'bandhgala', 'dhoti'},
-    'Curvy': {'saree', 'salwar', 'lehenga'},
-    'Plus Size': {'salwar', 'saree', 'kurta sets'},
-    'Petite': {'kurti', 'kurtis', 'indo-western'},
+    'Slim':      {'lehenga choli', 'saree', 'banarasi saree', 'kanjeevaram saree', 'silk saree', 'anarkali suit',
+                  'anarkali', 'light saree', 'sharara', 'formal kurti', 'kurti', 'shirt', 'jeans', 'top',
+                  'sherwani', 'indo-western suit'},
+    'Athletic':  {'sherwani', 'kurta pajama', 'kurta', 'pathani suit', 'nehru jacket', 'formal suit',
+                  'blazer', 'shirt', 't-shirt', 'track pants', 'joggers', 'hoodie', 'casual shirt'},
+    'Curvy':     {'saree', 'banarasi saree', 'kanjeevaram saree', 'silk saree', 'cotton saree', 'light saree',
+                  'salwar kameez', 'anarkali suit', 'anarkali', 'gharara', 'sharara',
+                  'formal kurti', 'kurti', 'long skirt'},
+    'Plus Size': {'salwar kameez', 'saree', 'cotton saree', 'anarkali suit', 'kurti', 'long skirt',
+                  'kurta pajama', 'dhoti', 'veshti', 'formal trousers', 'shirt', 'blazer'},
+    'Petite':    {'kurti', 'top', 'jeans', 't-shirt', 'casual shirt', 'hoodie', 'oversized shirt',
+                  'lehenga choli', 'sharara', 'gharara', 'anarkali', 'formal kurti', 'long skirt'},
 }
+
 MYNTRA_BASE_URL = 'https://www.myntra.com/'
 
 URL_MAP = {

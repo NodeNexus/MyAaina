@@ -7,37 +7,44 @@ from urllib.request import Request, urlopen
 
 SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 SKIN_TONE_COLOR_PREFERENCES = {
-    'Fair': {'red', 'maroon', 'emerald', 'green', 'lavender', 'black', 'blue', 'navy blue', 'pink'},
-    'Wheatish': {'mustard', 'teal', 'maroon', 'navy blue', 'olive', 'cream', 'rust', 'purple'},
-    'Dusky': {'white', 'mustard', 'magenta', 'teal', 'rust', 'pink', 'yellow', 'gold'},
-    'Dark': {'white', 'yellow', 'green', 'emerald', 'blue', 'royal blue', 'orange', 'gold', 'red', 'cream'},
+    'Fair':     {'red', 'maroon', 'royal blue', 'deep purple', 'pink', 'navy', 'black', 'ivory', 'cream', 'gold'},
+    'Wheatish': {'mustard', 'olive', 'maroon', 'navy', 'cream', 'rust', 'purple', 'turquoise', 'orange'},
+    'Dusky':    {'white', 'yellow', 'saffron', 'magenta', 'coral', 'pink', 'gold', 'sky blue', 'light green'},
+    'Dark':     {'white', 'yellow', 'saffron', 'orange', 'gold', 'red', 'cream', 'sky blue', 'light green'},
 }
 BODY_TYPE_CATEGORY_PREFERENCES = {
-    'Slim': {'dress', 'a-line', 'top', 'blouse', 'skirt'},
-    'Athletic': {'dress', 'shirt', 'top', 'skirt'},
-    'Curvy': {'dress', 'a-line', 'fishtail', 'blouse'},
-    'Plus Size': {'dress', 'shirt', 'blouse', 'skirt'},
-    'Petite': {'crop top', 'dress', 'blouse', 'top'},
+    'Slim':      {'lehenga choli', 'saree', 'banarasi saree', 'kanjeevaram saree', 'silk saree', 'anarkali suit',
+                  'anarkali', 'light saree', 'sharara', 'formal kurti', 'kurti', 'shirt', 'jeans', 'top',
+                  'sherwani', 'indo-western suit'},
+    'Athletic':  {'sherwani', 'kurta pajama', 'kurta', 'pathani suit', 'nehru jacket', 'formal suit',
+                  'blazer', 'shirt', 't-shirt', 'track pants', 'joggers', 'hoodie', 'casual shirt'},
+    'Curvy':     {'saree', 'banarasi saree', 'kanjeevaram saree', 'silk saree', 'cotton saree', 'light saree',
+                  'salwar kameez', 'anarkali suit', 'anarkali', 'gharara', 'sharara',
+                  'formal kurti', 'kurti', 'long skirt'},
+    'Plus Size': {'salwar kameez', 'saree', 'cotton saree', 'anarkali suit', 'kurti', 'long skirt',
+                  'kurta pajama', 'dhoti', 'veshti', 'formal trousers', 'shirt', 'blazer'},
+    'Petite':    {'kurti', 'top', 'jeans', 't-shirt', 'casual shirt', 'hoodie', 'oversized shirt',
+                  'lehenga choli', 'sharara', 'gharara', 'anarkali', 'formal kurti', 'long skirt'},
 }
 
 BASE_DIR = os.path.dirname(__file__)
 CACHE_FILE = os.path.join(BASE_DIR, 'savana_cache.json')
-CACHE_TTL_SECONDS = 30 * 60
+CACHE_TTL_SECONDS = 7 * 24 * 60 * 60  # 7 days – use cached catalogue data
 SAVANA_BASE_URL = 'https://www.savana.com'
 
 SEARCH_QUERY_MAP = {
-    ('Female', 'Casual'): 'casual dress',
-    ('Female', 'Office'): 'shirt dress',
-    ('Female', 'College'): 'crop top',
-    ('Female', 'Festive'): 'sequin dress',
-    ('Female', 'Wedding'): 'party dress',
-    ('Female', 'Pooja'): 'embroidered blouse',
-    ('Male', 'Casual'): 'men casual shirt',
-    ('Male', 'Office'): 'men formal shirt',
-    ('Male', 'College'): 'men t-shirt',
-    ('Male', 'Festive'): 'men ethnic wear',
-    ('Male', 'Wedding'): 'men suit blazer',
-    ('Male', 'Pooja'): 'men kurta',
+    ('Female', 'Casual'): 't-shirt cotton dress',
+    ('Female', 'Office'): 'formal skirt trousers blouse',
+    ('Female', 'College'): 'jeans casual shirt hoodie',
+    ('Female', 'Festive'): 'long skirt crop top fusion',
+    ('Female', 'Wedding'): 'anarkali lehenga',
+    ('Female', 'Pooja'): 'salwar kameez cotton',
+    ('Male', 'Casual'): 'polo t-shirt joggers',
+    ('Male', 'Office'): 'suit blazer button-down shirt',
+    ('Male', 'College'): 'jeans t-shirt hoodie sneakers',
+    ('Male', 'Festive'): 'embroidered kurta pyjama',
+    ('Male', 'Wedding'): 'sherwani bandhgala achkan',
+    ('Male', 'Pooja'): 'cotton kurta dhoti',
 }
 
 
