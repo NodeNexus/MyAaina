@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.pyo
+data/user_profile.json
+data/purchase_history.csv
+data/wishlist.json
+.env
