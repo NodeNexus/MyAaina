@@ -36,21 +36,21 @@
 <section id="home" class="section active">
   <!-- Hero -->
   <div class="hero">
-    <div class="hero-badge">🇮🇳 100% Indian Fashion</div>
+    <div class="hero-badge">100% Indian Fashion</div>
     <h1 class="hero-title">Your Desi Style,<br><span class="accent">Reimagined by AI</span></h1>
     <p class="hero-sub">Tell us about yourself — we match the perfect Indian outfit for every occasion across Myntra, Amazon &amp; Meesho.</p>
     <div class="hero-stats">
-      <div class="stat-pill">🛍️ <strong>{{ catalog_stats.total_products }}+</strong> Products</div>
-      <div class="stat-pill">🏷️ <strong>{{ catalog_stats.total_categories }}</strong> Categories</div>
-      <div class="stat-pill">🏬 <strong>{{ catalog_stats.total_platforms }}</strong> Platforms</div>
-      <div class="stat-pill">💰 ₹<strong>{{ catalog_stats.price_range[0] }}</strong>–₹<strong>{{ catalog_stats.price_range[1] }}</strong></div>
+      <div class="stat-pill"><strong>{{ catalog_stats.total_products }}+</strong> Products</div>
+      <div class="stat-pill"><strong>{{ catalog_stats.total_categories }}</strong> Categories</div>
+      <div class="stat-pill"><strong>{{ catalog_stats.total_platforms }}</strong> Platforms</div>
+      <div class="stat-pill">₹<strong>{{ catalog_stats.price_range[0] }}</strong>–₹<strong>{{ catalog_stats.price_range[1] }}</strong></div>
     </div>
   </div>
 
   <!-- Profile Card -->
   <div class="card profile-card">
     <div class="card-header">
-      <h2 class="card-title">👤 My Style Profile</h2>
+      <h2 class="card-title">My Style Profile</h2>
       <p class="card-subtitle">Fill in once — get personalised outfit picks forever</p>
     </div>
     <div id="profile-status" class="profile-status hidden"></div>
@@ -119,16 +119,16 @@
       <div class="form-group full-width">
         <label>Style Interests (select all that apply)</label>
         <div class="checkbox-group" id="interest-pills">
-          <label class="check-item"><input type="checkbox" value="Wedding" /> 💍 Wedding</label>
-          <label class="check-item"><input type="checkbox" value="Festive" /> 🪔 Festive</label>
-          <label class="check-item"><input type="checkbox" value="Casual"  /> 👕 Casual</label>
-          <label class="check-item"><input type="checkbox" value="Office"  /> 💼 Office</label>
-          <label class="check-item"><input type="checkbox" value="College" /> 🎒 College</label>
-          <label class="check-item"><input type="checkbox" value="Pooja"   /> 🙏 Pooja</label>
+          <label class="check-item"><input type="checkbox" value="Wedding" /> Wedding</label>
+          <label class="check-item"><input type="checkbox" value="Festive" /> Festive</label>
+          <label class="check-item"><input type="checkbox" value="Casual"  /> Casual</label>
+          <label class="check-item"><input type="checkbox" value="Office"  /> Office</label>
+          <label class="check-item"><input type="checkbox" value="College" /> College</label>
+          <label class="check-item"><input type="checkbox" value="Pooja"   /> Pooja</label>
         </div>
       </div>
 
-      <button type="submit" class="btn-primary" id="save-profile-btn">Save My Profile ✨</button>
+      <button type="submit" class="btn-primary" id="save-profile-btn">Save My Profile</button>
     </form>
   </div>
 </section>
@@ -136,7 +136,7 @@
 <!-- ── SECTION: EXPLORE ── -->
 <section id="explore" class="section">
   <div class="section-header">
-    <h2>🔥 Explore &amp; Discover</h2>
+    <h2>Explore &amp; Discover</h2>
     <p>Search anything, find trending picks &amp; steal best deals</p>
   </div>
 
@@ -144,19 +144,19 @@
   <div class="search-bar-wrap">
     <input type="text" id="search-input" class="search-input" placeholder="Search saree, lehenga, kurta, color..." 
            onkeydown="if(event.key==='Enter') doSearch()" />
-    <button class="btn-search" onclick="doSearch()">🔍 Search</button>
+    <button class="btn-search" onclick="doSearch()">Search</button>
   </div>
 
   <!-- Tabs -->
   <div class="explore-tabs">
-    <button class="tab-btn active" id="tab-search"   onclick="switchTab('search')">🔍 Results</button>
-    <button class="tab-btn"        id="tab-trending"  onclick="switchTab('trending')">🔥 Trending</button>
-    <button class="tab-btn"        id="tab-deals"     onclick="switchTab('deals')">💸 Best Deals</button>
+    <button class="tab-btn active" id="tab-search"   onclick="switchTab('search')">Results</button>
+    <button class="tab-btn"        id="tab-trending"  onclick="switchTab('trending')">Trending</button>
+    <button class="tab-btn"        id="tab-deals"     onclick="switchTab('deals')">Best Deals</button>
   </div>
 
   <div id="explore-search-panel"  class="explore-panel active-panel">
     <div id="search-results-grid"  class="results-grid"></div>
-    <div id="search-no-results"    class="no-results hidden"><p>🔍 Type something above to search our catalogue!</p></div>
+    <div id="search-no-results"    class="no-results hidden"><p>Type something above to search our catalogue!</p></div>
   </div>
   <div id="explore-trending-panel" class="explore-panel hidden">
     <div id="trending-grid" class="results-grid"></div>
@@ -173,7 +173,7 @@
 <!-- ── SECTION: RECOMMEND ── -->
 <section id="recommend" class="section">
   <div class="section-header">
-    <h2>✨ Get Recommendations</h2>
+    <h2>Get Recommendations</h2>
     <p>Select your occasion and we'll curate the perfect outfit</p>
   </div>
 
@@ -183,21 +183,21 @@
         <label>Occasion</label>
         <select id="occasion">
           <option value="">Select Occasion</option>
-          <option value="Wedding">💍 Wedding / Shaadi</option>
-          <option value="Festive">🪔 Festive (Diwali, Eid, Holi)</option>
-          <option value="Casual">👕 Casual / Daily Wear</option>
-          <option value="Office">💼 Office / Formal</option>
-          <option value="College">🎒 College</option>
-          <option value="Pooja">🙏 Pooja / Religious</option>
+          <option value="Wedding">Wedding / Shaadi</option>
+          <option value="Festive">Festive (Diwali, Eid, Holi)</option>
+          <option value="Casual">Casual / Daily Wear</option>
+          <option value="Office">Office / Formal</option>
+          <option value="College">College</option>
+          <option value="Pooja">Pooja / Religious</option>
         </select>
       </div>
       <div class="form-group">
         <label>Sort By</label>
         <select id="sort_by">
-          <option value="score">🏆 Best Match</option>
-          <option value="price">💰 Lowest Price</option>
-          <option value="quality">⭐ Highest Quality</option>
-          <option value="delivery">🚚 Fastest Delivery</option>
+          <option value="score">Best Match</option>
+          <option value="price">Lowest Price</option>
+          <option value="quality">Highest Quality</option>
+          <option value="delivery">Fastest Delivery</option>
         </select>
       </div>
       <button class="btn-primary" id="find-btn" onclick="getRecommendations()">Find Outfits →</button>
@@ -208,15 +208,15 @@
   <div id="charts-section" class="charts-section hidden">
     <div class="charts-grid">
       <div class="card chart-card">
-        <h3>💰 Avg Price by Platform (₹)</h3>
+        <h3>Avg Price by Platform (₹)</h3>
         <canvas id="priceChart"></canvas>
       </div>
       <div class="card chart-card">
-        <h3>⭐ Avg Quality by Platform</h3>
+        <h3>Avg Quality by Platform</h3>
         <canvas id="qualityChart"></canvas>
       </div>
       <div class="card chart-card">
-        <h3>🚚 Avg Delivery Days by Platform</h3>
+        <h3>Avg Delivery Days by Platform</h3>
         <canvas id="deliveryChart"></canvas>
       </div>
     </div>
@@ -229,7 +229,7 @@
   </div>
   <div id="no-results" class="no-results hidden">
     <div class="no-results-inner">
-      <div class="no-results-icon">😕</div>
+      <div class="no-results-icon">—</div>
       <p>No outfits found for this occasion in your budget &amp; size.</p>
       <p class="hint">Try adjusting your budget in your profile, or pick a different occasion.</p>
     </div>
@@ -239,15 +239,15 @@
 <!-- ── SECTION: WISHLIST ── -->
 <section id="wishlist" class="section">
   <div class="section-header">
-    <h2>❤️ My Wishlist</h2>
+    <h2>My Wishlist</h2>
     <p>Items you've saved for later</p>
   </div>
   <div id="wishlist-grid" class="results-grid"></div>
   <div id="no-wishlist" class="no-results hidden">
     <div class="no-results-inner">
-      <div class="no-results-icon">💔</div>
+      <div class="no-results-icon">—</div>
       <p>Your wishlist is empty.</p>
-      <p class="hint">Tap the ❤️ on any product to save it here!</p>
+      <p class="hint">Tap the heart on any product to save it here!</p>
     </div>
   </div>
 </section>
@@ -255,29 +255,29 @@
 <!-- ── SECTION: HISTORY (MY WARDROBE) ── -->
 <section id="history" class="section">
   <div class="section-header">
-    <h2>👗 My Wardrobe</h2>
+    <h2>My Wardrobe</h2>
     <p>Purchases logged &amp; spending analysed</p>
   </div>
 
   <!-- Spend KPIs -->
   <div class="kpi-row" id="kpi-row">
     <div class="kpi-card">
-      <div class="kpi-icon">🛍️</div>
+      <div class="kpi-icon">Items</div>
       <div class="kpi-value" id="kpi-total-items">—</div>
       <div class="kpi-label">Items Bought</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-icon">💸</div>
+      <div class="kpi-icon">Spend</div>
       <div class="kpi-value" id="kpi-total-spend">—</div>
       <div class="kpi-label">Total Spend</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-icon">⭐</div>
+      <div class="kpi-icon">Quality</div>
       <div class="kpi-value" id="kpi-avg-quality">—</div>
       <div class="kpi-label">Avg Quality</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-icon">🏬</div>
+      <div class="kpi-icon">Platform</div>
       <div class="kpi-value" id="kpi-fav-platform">—</div>
       <div class="kpi-label">Top Platform</div>
     </div>
@@ -286,11 +286,11 @@
   <!-- Charts row -->
   <div class="charts-grid" id="history-charts-row">
     <div class="card chart-card">
-      <h3>📊 Category Breakdown</h3>
+      <h3>Category Breakdown</h3>
       <canvas id="historyChart"></canvas>
     </div>
     <div class="card chart-card">
-      <h3>🏬 Spend by Platform</h3>
+      <h3>Spend by Platform</h3>
       <canvas id="platformSpendChart"></canvas>
     </div>
   </div>
@@ -299,7 +299,7 @@
   <div id="history-grid" class="results-grid"></div>
   <div id="no-history" class="no-results hidden">
     <div class="no-results-inner">
-      <div class="no-results-icon">🛍️</div>
+      <div class="no-results-icon">—</div>
       <p>No purchases yet.</p>
       <p class="hint">Start recommending and log your buys!</p>
     </div>

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof userProfileInfo !== 'undefined' && userProfileInfo) {
     window.userObj = userProfileInfo;
     populateProfileForm(userProfileInfo);
-    document.getElementById('nav-profile-area').textContent = `👋 Hi, ${userProfileInfo.name.split(' ')[0]}`;
+    document.getElementById('nav-profile-area').textContent = `Hi, ${userProfileInfo.name.split(' ')[0]}`;
   }
   
   // Attach Slider listener
@@ -73,7 +73,7 @@ async function saveProfile(event) {
   event.preventDefault();
   const btn = document.getElementById('save-profile-btn');
   const orgTxt = btn.innerHTML;
-  btn.innerHTML = 'Saving... ⏳';
+  btn.innerHTML = 'Saving...';
   btn.disabled = true;
 
   const interests = Array.from(document.querySelectorAll('.check-item input:checked')).map(c => c.value);
@@ -101,14 +101,14 @@ async function saveProfile(event) {
     
     if (d.success) {
       status.classList.add('success');
-      status.innerHTML = `✅ ${d.message}`;
+      status.innerHTML = `${d.message}`;
       window.userObj = data;
-      document.getElementById('nav-profile-area').textContent = `👋 Hi, ${data.name.split(' ')[0]}`;
+      document.getElementById('nav-profile-area').textContent = `Hi, ${data.name.split(' ')[0]}`;
       showToast('Profile Saved!', 'success');
       setTimeout(() => showSection('recommend'), 1200);
     } else {
       status.classList.add('error');
-      status.innerHTML = `❌ ${d.message}`;
+      status.innerHTML = `${d.message}`;
     }
   } catch(e) {
     console.error(e);
@@ -177,7 +177,7 @@ async function getRecommendations() {
 
   const btn = document.getElementById('find-btn');
   const orgTxt = btn.innerHTML;
-  btn.innerHTML = 'Searching AI... ⏳';
+  btn.innerHTML = 'Searching AI...';
   btn.disabled = true;
 
   try {
@@ -197,7 +197,7 @@ async function getRecommendations() {
         sec.classList.add('hidden'); chrt.classList.add('hidden'); none.classList.remove('hidden');
       } else {
         none.classList.add('hidden'); sec.classList.remove('hidden'); chrt.classList.remove('hidden');
-        document.getElementById('results-title').textContent = `✨ ${d.results.length} Matches for ${d.user}'s ${occasion}`;
+        document.getElementById('results-title').textContent = `${d.results.length} Matches for ${d.user}'s ${occasion}`;
         document.getElementById('results-grid').innerHTML = generateCardGrid(d.results, true);
         renderDecisionCharts(d.price_chart, d.quality_chart, d.delivery_chart);
         // Scroll to results seamlessly
@@ -251,7 +251,7 @@ function getImgSrc(item) {
 
 function renderStars(rating) {
   const f = Math.floor(rating), h = rating % 1 >= 0.5 ? 1 : 0, e = 5 - f - h;
-  return '⭐'.repeat(f) + (h ? '✨' : '') + '☆'.repeat(e);
+  return '★'.repeat(f) + (h ? '½' : '') + '☆'.repeat(e);
 }
 
 function generateCardGrid(items, showScore = false) {
@@ -263,7 +263,7 @@ function generateCardGrid(items, showScore = false) {
     <div class="product-card" style="animation: fadeInUp 0.4s ease forwards; animation-delay: ${idx * 0.05}s; opacity:0;">
       
       <button class="wishlist-btn ${item.in_wishlist?'active':''}" onclick="toggleWishlist('${item.id}', this)">
-        ${item.in_wishlist?'❤️':'🤍'}
+        ${item.in_wishlist?'♥':'♡'}
       </button>
 
       <div class="img-container" onclick="openModal('${item.id}')">
@@ -273,7 +273,7 @@ function generateCardGrid(items, showScore = false) {
 
       <div class="product-name" title="${item.name}">${item.name}</div>
       <div class="product-cat">${item.category} · ${item.color}</div>
-      ${item.match_reason ? `<div style="font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: -5px; margin-bottom: 5px;">✨ ${item.match_reason}</div>` : ''}
+      ${item.match_reason ? `<div style="font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-top: -5px; margin-bottom: 5px;">${item.match_reason}</div>` : ''}
 
       <div class="product-meta">
         <div class="meta-row">
@@ -287,7 +287,7 @@ function generateCardGrid(items, showScore = false) {
       </div>
 
       <button class="btn-buy" id="buy-btn-${item.id}" onclick="logPurchase('${item.id}')">
-        🛍️ Buy / Add to Wardrobe
+        Buy / Add to Wardrobe
       </button>
     </div>
   `).join('');
@@ -306,10 +306,10 @@ async function toggleWishlist(id, btnElement) {
       showToast(d.message, d.added ? 'success' : '');
       if(d.added) {
         btnElement.classList.add('active');
-        btnElement.innerHTML = '❤️';
+        btnElement.innerHTML = '♥';
       } else {
         btnElement.classList.remove('active');
-        btnElement.innerHTML = '🤍';
+        btnElement.innerHTML = '♡';
         if(document.getElementById('wishlist').classList.contains('active')) loadWishlist();
       }
     }
@@ -326,10 +326,10 @@ async function logPurchase(id) {
     });
     const d = await res.json();
     if(d.success) {
-      showToast('Logged to Wardrobe! 👗', 'success');
+      showToast('Logged to Wardrobe!', 'success');
       const b = document.getElementById(`buy-btn-${id}`);
       if(b) {
-        b.innerHTML = '✅ Owned';
+        b.innerHTML = 'Owned';
         b.style.background = 'var(--accent)';
         b.style.color = '#000';
         b.style.borderColor = 'var(--accent)';
@@ -445,7 +445,7 @@ function openModal(itemId) {
       <div class="modal-img-col">
         <img src="${getImgSrc(item)}" class="modal-img" />
         <button class="wishlist-btn ${item.in_wishlist?'active':''}" style="width:50px;height:50px;font-size:1.5rem;" onclick="toggleWishlist('${item.id}', this); event.stopPropagation();">
-          ${item.in_wishlist?'❤️':'🤍'}
+          ${item.in_wishlist?'♥':'♡'}
         </button>
       </div>
       <div class="modal-info-col">
